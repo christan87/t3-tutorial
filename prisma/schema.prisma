@@ -16,3 +16,12 @@ model Example {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
+
+model Post {
+  // cuid is good because it creates cosecutive unique ids  
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    content String @db.VarChar(255)
+    authorId String
+    @@index([authorId])
+}
