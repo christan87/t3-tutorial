@@ -5,9 +5,9 @@ import "~/styles/globals.css";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    //<ClerkProvider {...pageProps}>
+    <ClerkProvider {...pageProps}>
       <Component {...pageProps} />
-    //</ClerkProvider>
+    </ClerkProvider>
   )
 };
 
