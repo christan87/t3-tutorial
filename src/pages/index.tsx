@@ -18,7 +18,7 @@ export default function Home() {
         <div>
           <div>
             {!user.isSignedIn? 
-                <SignInButton mode="modal" redirectUrl='/'/>
+                <SignInButton mode="modal"/>
               :
                 <SignOutButton />
             }
