@@ -1,7 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
-import { api } from "~/utils/api";
+import { RouterOutputs, api } from "~/utils/api";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+
+// dayjs
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 const CreatePostWizard = () => {
   const { user } = useUser();
@@ -12,6 +17,24 @@ const CreatePostWizard = () => {
       <input className="bg-transparent grow outline-none" placeholder="Type some emojis..." />
     </div>
   );
+}
+
+type PostWithUser = RouterOutputs["posts"]["getAll"][number];
+
+const PostView = (props: PostWithUser) => {
+  const { post, author } = props; 
+  return (
+    <div className="flex gap-3 p-4 border-b border-slate-400" key={`${post.id}${Math.random()}`}>
+      <img className="w-14 h-14 rounded-full" src={author.profileImageUrl} alt="Post Author Profile Image"/>
+      <div className="flex flex-col">
+        <div className="flex gap-1 text-slate-300">
+          <span>{`@${author.username}`}</span>
+          <span className="font-thin">{` · ${dayjs(post.createdAt).fromNow()}`}</span>
+        </div>
+        <span>{post.content}</span>
+      </div>
+    </div>
+  )
 }
 
 export default function Home() {
@@ -42,10 +65,8 @@ export default function Home() {
             }
           </div>
           {/* data?.map((post) */}
-          {[...data, ...data].map(({post, author}) => (
-            <div className="p-8 border-b border-slate-400" key={`${post.id}${Math.random()}`}>
-              {post.content}
-            </div>
+          {[...data, ...data].map((fullPost) => (
+            <PostView {...fullPost} key={fullPost.post.id}/>
           ))}
         </div>
       </main>
