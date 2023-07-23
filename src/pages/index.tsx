@@ -15,12 +15,12 @@ const CreatePostWizard = () => {
 }
 
 export default function Home() {
-  const { data, isLoading } = api.posts.getAll.useQuery();
   const user = useUser();
+  const { data, isLoading } = api.posts.getAll.useQuery();
 
   if(isLoading) return <div>Loadig...</div>
   if(!data) return <div>Something went wrong...</div>
-  
+
   return (
     <>
       <Head>
