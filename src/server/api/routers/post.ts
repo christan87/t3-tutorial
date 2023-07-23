@@ -23,8 +23,6 @@ export const postRouter = createTRPCRouter({
         limit: 100,
       })
     ).map(filterUserForClient);
-
-    console.log('=============> users: ', users);
     
     return posts.map((post) => ({
       post,
