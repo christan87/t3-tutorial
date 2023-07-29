@@ -7,6 +7,7 @@ import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 // dayjs
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { LoadingPage } from "~/components/loading";
 dayjs.extend(relativeTime);
 
 const CreatePostWizard = () => {
@@ -50,12 +51,29 @@ const PostView = (props: PostWithUser) => {
   )
 }
 
-export default function Home() {
-  const user = useUser();
-  const { data, isLoading } = api.posts.getAll.useQuery();
-
-  if(isLoading) return <div>Loadig...</div>
+const Feed = () => {
+  const { data, isLoading: postsLoading } = api.posts.getAll.useQuery();
+  if(postsLoading) return <LoadingPage /> 
   if(!data) return <div>Something went wrong...</div>
+
+  return (
+    <div className="flex flex-col">
+      {/* data?.map((post) */}
+      {[...data, ...data]?.map((fullPost) => (
+        <PostView {...fullPost} key={fullPost.post.id}/>
+      ))}
+    </div>
+  )
+}
+
+export default function Home() {
+  const { user, isLoaded: userLoaded, isSignedIn } = useUser();
+
+  // Start Fetching Data Asap
+  api.posts.getAll.useQuery();
+
+  //return empty div if user isn't loaded yet
+  if(!userLoaded) return <div /> 
 
   return (
     <>
@@ -67,20 +85,14 @@ export default function Home() {
       <main className="flex justify-center h-screen">
         <div className="w-full h-full border-x md:max-w-2xl border-slate-400">
           <div className="border-b border-slate-100 p-4 flex ">
-            {!user.isSignedIn? 
+            {!isSignedIn && ( 
                 <div className="flex justify-center ">
                   <SignInButton mode="modal"/>
                 </div>
-              :
-                <div className="flex justify-center w-full">
-                  <CreatePostWizard />
-                </div>
-            }
+            )}
+            {isSignedIn && <CreatePostWizard />}
           </div>
-          {/* data?.map((post) */}
-          {[...data, ...data].map((fullPost) => (
-            <PostView {...fullPost} key={fullPost.post.id}/>
-          ))}
+          <Feed />
         </div>
       </main>
     </>
