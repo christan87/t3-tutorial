@@ -10,6 +10,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { LoadingPage, LoadingSpinner } from "~/components/loading";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { PageLayout } from "~/components/layout";
 dayjs.extend(relativeTime);
 
 const CreatePostWizard = () => {
@@ -130,19 +131,17 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex justify-center h-screen">
-        <div className="w-full h-full border-x md:max-w-2xl border-slate-400">
-          <div className="border-b border-slate-100 p-4 flex ">
-            {!isSignedIn && ( 
-                <div className="flex justify-center ">
-                  <SignInButton mode="modal"/>
-                </div>
-            )}
-            {isSignedIn && <CreatePostWizard />}
-          </div>
-          <Feed />
+      <PageLayout>
+        <div className="border-b border-slate-100 p-4 flex ">
+          {!isSignedIn && ( 
+              <div className="flex justify-center ">
+                <SignInButton mode="modal"/>
+              </div>
+          )}
+          {isSignedIn && <CreatePostWizard />}
         </div>
-      </main>
+        <Feed />
+      </PageLayout>
     </>
   );
 }

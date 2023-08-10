@@ -28,7 +28,7 @@ import { prisma } from '~/server/db';
 import superjson from "superjson";
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const ssg = await createServerSideHelpers({
+  const ssg = createServerSideHelpers({
     router: appRouter,
     ctx: { prisma, userId: null} ,
     transformer: superjson, // optional - adds superjson serialization
