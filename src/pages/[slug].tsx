@@ -35,14 +35,14 @@ const ProfilePage: NextPage<{username: string}> = ({username}) => {
         <div className="relative h-36 border-slate-400 bg-slate-600">
           <Image 
             src={data.profileImageUrl} 
-            alt=''
+            alt={`${data.username ?? "" }'s profile image`} 
             width={128}
             height={128}
             className="-mb-[64px] rounded-full border-2 border-black absolute bottom-0 left-0 ml-4"
           />
         </div>
         <div className="h-[64px]"/>{/* This is a spacer div creating space btwn profile pic and usernmae */}
-        <div className="p-4 text-2xl font-bold">{`@${data.username}`}</div>
+        <div className="p-4 text-2xl font-bold">Test</div>
         <div className="w-full border-b border-slate-400" />
         <ProfileFeed userId={data.id} />
       </PageLayout>
