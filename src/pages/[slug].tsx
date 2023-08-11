@@ -42,7 +42,7 @@ const ProfilePage: NextPage<{username: string}> = ({username}) => {
           />
         </div>
         <div className="h-[64px]"/>{/* This is a spacer div creating space btwn profile pic and usernmae */}
-        <div className="p-4 text-2xl font-bold">Test</div>
+        <div className="p-4 text-2xl font-bold">{`@${data.username? data.username : ''}`}</div>
         <div className="w-full border-b border-slate-400" />
         <ProfileFeed userId={data.id} />
       </PageLayout>
