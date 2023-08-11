@@ -9,11 +9,11 @@ const ProfileFeed = (props: {userId: string}) => {
   if(isLoading) return <LoadingPage />;
   //(data as any[]) differs from original code
 
-  if(!data || (data as any[]).length === 0) return <div>User has not posted</div>
+  if(!data || data.length === 0) return <div>User has not posted</div>
 
   return (
     <div className="flex flex-col">
-      {(data as any[]).map((fullPost) => (<PostView {...fullPost} key={fullPost.post.id}/>))}
+      {data.map((fullPost) => (<PostView {...fullPost} key={fullPost.post.id}/>))}
     </div>
   );
 };
